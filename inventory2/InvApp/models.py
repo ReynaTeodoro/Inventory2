@@ -4,58 +4,53 @@ from django.db import models
 from django.db import models
 
 class Objeto(models.Model):
-    ID = models.IntegerField()
-    Marca = models.CharField(max_length=30)
-    Modelo = models.CharField(max_length=30)
-    Estado = models.CharField(max_length=30)
-    Descripcion = models.CharField(max_length=30)
-    ID_Colegio = models.CharField(max_length=30)
+    marca = models.CharField(max_length=30)
+    modelo = models.CharField(max_length=30)
+    estado = models.CharField(max_length=30)
+    descripcion = models.CharField(max_length=30)
+    id_Colegio = models.CharField(max_length=30)
 
     def __str__(self):
         return self.Nombre
 
 class Registro(models.Model):
-    Fecha = models.DateField()
-    Descripcion = models.CharField(max_length=30)
+    fecha = models.DateField()
+    descripcion = models.CharField(max_length=30)
 
     def __str__(self):
         return self.Titulo
 
 class Usuario(models.Model):
-    ID = models.IntegerField()
-    Nombre = models.CharField(max_length=30)
-    Apellido = models.CharField(max_length=30)
+    nombre = models.CharField(max_length=30)
+    apellido = models.CharField(max_length=30)
     mail = models.EmailField(max_length=30)
 
     def __str__(self):
         return self.Nombre
 
 class Laboratorio(models.Model):
-    Ubicacion = models.IntegerField()
-    Nombre = models.CharField(max_length=30)
+    ubicacion = models.IntegerField()
+    nombre = models.CharField(max_length=30)
 
     def __str__(self):
         return self.Nombre
 
 class Conjunto(models.Model):
-    ID = models.IntegerField()
-    Nombre = models.CharField(max_length=30)
-    Categoria = models.CharField(max_length=30)
-    Stock = models.IntegerField()
-    Descripcion = models.CharField(max_length=30)
+    nombre = models.CharField(max_length=30)
+    categoria = models.CharField(max_length=30)
+    stock = models.IntegerField()
+    descripcion = models.CharField(max_length=30)
 
     def __str__(self):
         return self.Nombre
 
 class Armario(models.Model):
-    ID = models.IntegerField()
-    ID_Colegio = models.IntegerField()
+    id_Colegio = models.IntegerField()
 
     def __str__(self):
         return self.Nombre
 
 class Especialidad(models.Model):
-    ID = models.IntegerField()
     materia = models.CharField(max_length=30)
 
     def __str__(self):
