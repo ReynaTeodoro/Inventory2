@@ -3,6 +3,15 @@ from django.db import models
 # Create your models here.
 from django.db import models
 
+class Conjunto(models.Model):
+    nombre = models.CharField(max_length=30)
+    categoria = models.CharField(max_length=30)
+    stock = models.IntegerField()
+    descripcion = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.Nombre
+
 class Objeto(models.Model):
     marca = models.CharField(max_length=30)
     modelo = models.CharField(max_length=30)
@@ -55,14 +64,7 @@ class Laboratorio(models.Model):
     def moverObjeto(arg):
         pass
 
-class Conjunto(models.Model):
-    nombre = models.CharField(max_length=30)
-    categoria = models.CharField(max_length=30)
-    stock = models.IntegerField()
-    descripcion = models.CharField(max_length=30)
 
-    def __str__(self):
-        return self.Nombre
 
 class Armario(models.Model):
     id_Colegio = models.IntegerField()
