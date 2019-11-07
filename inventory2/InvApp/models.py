@@ -5,12 +5,13 @@ from django.db import models
 
 class Conjunto(models.Model):
     nombre = models.CharField(max_length=30)
-    categoria = models.CharField(max_length=30)
     stock = models.IntegerField()
     descripcion = models.CharField(max_length=30)
 
+    categoria = models.ForeignKey('Categoria', on_delete=models.CASCADE)
+
     def __str__(self):
-        return self.Nombre
+        return self.nombre
 
 class Objeto(models.Model):
     marca = models.CharField(max_length=30)
@@ -25,7 +26,7 @@ class Objeto(models.Model):
 
 
     def __str__(self):
-        return self.Nombre
+        return self.nombre
 
 class Registro(models.Model):
     fecha = models.DateField()
@@ -35,7 +36,7 @@ class Registro(models.Model):
     usuario = models.ForeignKey('Usuario', on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.Titulo
+        return self.fecha
 
 class Usuario(models.Model):
     nombre = models.CharField(max_length=30)
@@ -43,14 +44,14 @@ class Usuario(models.Model):
     mail = models.EmailField(max_length=30)
 
     def __str__(self):
-        return self.Nombre
+        return self.nombre
 
 class Laboratorio(models.Model):
     ubicacion = models.IntegerField()
     nombre = models.CharField(max_length=30)
 
     def __str__(self):
-        return self.Nombre
+        return self.nombre
 
     def registrarObjeto(arg):
         pass
@@ -72,7 +73,7 @@ class Armario(models.Model):
     laboratorio = models.ForeignKey('Laboratorio', on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.Nombre
+        return self.nombre
 
 class Especialidad(models.Model):
     materia = models.CharField(max_length=30)
