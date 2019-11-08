@@ -24,7 +24,19 @@ class Conjunto(models.Model):
 class Objeto(models.Model):
     marca = models.CharField(max_length=30)
     modelo = models.CharField(max_length=30)
-    estado = forms.ChoiceField(choices="Bruh")
+    estado = [
+    (1, "Prestado"),
+    (2, "Disponible"),
+    (3, "En mantenimiento")
+    ]
+    estado = models.IntegerField(choices=estado)
+    condicion = [
+    (1, "Nuevo"),
+    (2, "Usado"),
+    (3, "Arreglar"),
+    (4, "Roto")
+    ]
+    condicion = models.IntegerField(choices=condicion)
     descripcion = models.CharField(max_length=30)
     id_Colegio = models.CharField(max_length=30)
 
