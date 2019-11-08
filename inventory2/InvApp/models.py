@@ -3,6 +3,13 @@ from django.db import models
 # Create your models here.
 from django.db import models
 
+class Categoria(models.Model):
+    nombre = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.nombre
+
+
 class Conjunto(models.Model):
     nombre = models.CharField(max_length=30)
     stock = models.IntegerField()
@@ -80,9 +87,3 @@ class Especialidad(models.Model):
 
     def __str__(self):
         return self.materia
-
-class Categoria(models.Model):
-    nombre = models.CharField(max_length=30)
-
-    def __str__(self):
-        return self.nombre
