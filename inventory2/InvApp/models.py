@@ -1,4 +1,5 @@
 from django.db import models
+from django import forms
 
 # Create your models here.
 from django.db import models
@@ -16,7 +17,7 @@ class Conjunto(models.Model):
 class Objeto(models.Model):
     marca = models.CharField(max_length=30)
     modelo = models.CharField(max_length=30)
-    estado = models.CharField(max_length=30)
+    estado = forms.ChoiceField(choices="Bruh")
     descripcion = models.CharField(max_length=30)
     id_Colegio = models.CharField(max_length=30)
 
