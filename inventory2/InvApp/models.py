@@ -33,8 +33,8 @@ class Objeto(models.Model):
     marca = models.CharField(max_length=30)
     modelo = models.CharField(max_length=30)
     estado = [
-    (1, "Prestado"),
-    (2, "Disponible"),
+    (1, "Disponible"),
+    (2, "Prestado"),
     (3, "En mantenimiento")
     ]
     estado = models.IntegerField(choices=estado,default=1)
