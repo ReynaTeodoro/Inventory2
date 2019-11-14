@@ -20,8 +20,12 @@ class Conjunto(models.Model):
     categoria = models.ForeignKey('Categoria', on_delete=models.CASCADE)
 
     def contar(self):
+        import re
         conjunto = Conjunto.objects.annotate(Count('objeto'))
-        return conjunto.values_list('nombre', 'objeto__count')
+        valConjunto = conjunto.filter(nombre=self.nombre).values_list('objeto__count')
+        strConjunto = re.findall('\d+', str(valConjunto))
+        return strConjunto
+
     def __str__(self):
         return self.nombre
 
