@@ -5,7 +5,7 @@ from .models import Objeto, Registro, Usuario, Laboratorio, Conjunto, Armario, E
 
 
 class RegistroAdmin(admin.ModelAdmin):
-    list_display = ('fecha', 'descripcion', 'usuario')
+    list_display = ('fecha', 'descripcion', Usuario)
 
 
 class ConjuntoAdmin(admin.ModelAdmin):
