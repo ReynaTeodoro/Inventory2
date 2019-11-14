@@ -1,5 +1,7 @@
 from django.db import models
 from django import forms
+from django.db.models import Count
+
 
 # Create your models here.
 from django.db import models
@@ -13,10 +15,16 @@ class Categoria(models.Model):
 
 class Conjunto(models.Model):
     nombre = models.CharField(max_length=30)
-    stock = models.IntegerField()
     descripcion = models.CharField(max_length=30)
 
     categoria = models.ForeignKey('Categoria', on_delete=models.CASCADE)
+
+    def contar(self):
+        import re
+        conjunto = Conjunto.objects.annotate(Count('objeto'))
+        valConjunto = conjunto.filter(nombre=self.nombre).values_list('objeto__count')
+        strConjunto = re.findall('\d+', str(valConjunto))
+        return strConjunto
 
     def __str__(self):
         return self.nombre
@@ -29,14 +37,14 @@ class Objeto(models.Model):
     (2, "Disponible"),
     (3, "En mantenimiento")
     ]
-    estado = models.IntegerField(choices=estado)
+    estado = models.IntegerField(choices=estado,default=1)
     condicion = [
     (1, "Nuevo"),
     (2, "Usado"),
     (3, "Arreglar"),
     (4, "Roto")
     ]
-    condicion = models.IntegerField(choices=condicion)
+    condicion = models.IntegerField(choices=condicion,default=1)
     descripcion = models.CharField(max_length=30)
     id_Colegio = models.CharField(max_length=30)
 
@@ -46,7 +54,7 @@ class Objeto(models.Model):
 
 
     def __str__(self):
-        return self.nombre
+        return self.modelo
 
 class Registro(models.Model):
     fecha = models.DateField()
@@ -88,8 +96,8 @@ class Laboratorio(models.Model):
 
 
 class Armario(models.Model):
+    nombre = models.CharField(max_length=30,default='1')
     id_Colegio = models.IntegerField()
-
     laboratorio = models.ForeignKey('Laboratorio', on_delete=models.CASCADE)
 
     def __str__(self):
