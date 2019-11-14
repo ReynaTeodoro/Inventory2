@@ -9,7 +9,7 @@ class RegistroAdmin(admin.ModelAdmin):
 
 
 class ConjuntoAdmin(admin.ModelAdmin):
-    list_display = ('nombre', 'stock', 'descripcion')
+    list_display = ('nombre', 'descripcion', 'contar')
 
 admin.site.register(Objeto)
 admin.site.register(Registro, RegistroAdmin)
