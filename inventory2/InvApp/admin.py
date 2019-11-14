@@ -11,7 +11,10 @@ class RegistroAdmin(admin.ModelAdmin):
 class ConjuntoAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'descripcion', 'contar')
 
-admin.site.register(Objeto)
+class ObjetoAdmin(admin.ModelAdmin):
+    change_list_template = 'change_list.html'
+
+admin.site.register(Objeto, ObjetoAdmin)
 admin.site.register(Registro, RegistroAdmin)
 admin.site.register(Usuario)
 admin.site.register(Laboratorio)
