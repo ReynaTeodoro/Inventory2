@@ -2,17 +2,21 @@ from django.contrib import admin
 from .models import Objeto, Registro, Usuario, Laboratorio, Conjunto, Armario, Especialidad, Categoria
 # Register your models here.
 
-
-
 class RegistroAdmin(admin.ModelAdmin):
     list_display = ('fecha', 'descripcion', 'usuario')
-
 
 class ConjuntoAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'descripcion', 'contar')
 
 class ObjetoAdmin(admin.ModelAdmin):
     change_list_template = 'change_list.html'
+
+    def changelist_view(self, request):
+        extra_context = {
+            'labs': Laboratorio.objects.all(),
+            'objetos': Objeto.objects.all()
+        }
+        return super(ObjetoAdmin, self).changelist_view(request, extra_context=extra_context)
 
 admin.site.register(Objeto, ObjetoAdmin)
 admin.site.register(Registro, RegistroAdmin)
