@@ -1,7 +1,8 @@
 from django.contrib import admin
 from .models import Objeto, Registro, Usuario, Laboratorio, Conjunto, Armario, Especialidad, Categoria
 # Register your models here.
-
+import datetime
+ #listener
 
 
 class RegistroAdmin(admin.ModelAdmin):
@@ -18,6 +19,25 @@ class ObjetoAdmin(admin.ModelAdmin):
             objeto.borrarObjeto()
 
     actions = [eliminarObjeto,]
+
+    def save_model(self, request, obj, form, change):
+        obj.user = request.user
+        super().save_model(request, obj, form, change)
+        timestr = datetime.datetime.now()
+        descripcion = ("Se añadio el objeto: " + obj.modelo + ", " +obj.marca)
+
+        Registro.objects.create(fecha=timestr, descripcion= descripcion)
+
+
+
+
+
+
+#class MyAdminView(admin.ModelAdmin):
+
+
+
+
 
 admin.site.register(Objeto,ObjetoAdmin)
 admin.site.register(Registro, RegistroAdmin)
