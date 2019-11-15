@@ -8,16 +8,20 @@ import datetime
 class RegistroAdmin(admin.ModelAdmin):
     list_display = ('fecha', 'descripcion', Usuario)
 
-
 class ConjuntoAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'descripcion', 'contar')
 
 class ObjetoAdmin(admin.ModelAdmin):
-<<<<<<< HEAD
     change_list_template = 'change_list.html'
 
+    def changelist_view(self, request):
+        extra_context = {
+            'labs': Laboratorio.objects.all(),
+            'objetos': Objeto.objects.all()
+        }
+        return super(ObjetoAdmin, self).changelist_view(request, extra_context=extra_context)
+
 admin.site.register(Objeto, ObjetoAdmin)
-=======
 
     def eliminarObjeto(modeladmin, request, queryset):
         for objeto in queryset:
@@ -45,7 +49,6 @@ admin.site.register(Objeto, ObjetoAdmin)
 
 
 admin.site.register(Objeto,ObjetoAdmin)
->>>>>>> 14223a2234bef8b59d16ab299c4ead1b500c9d1d
 admin.site.register(Registro, RegistroAdmin)
 admin.site.register(Usuario)
 admin.site.register(Laboratorio)
