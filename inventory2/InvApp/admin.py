@@ -21,8 +21,6 @@ class ObjetoAdmin(admin.ModelAdmin):
         }
         return super(ObjetoAdmin, self).changelist_view(request, extra_context=extra_context)
 
-admin.site.register(Objeto, ObjetoAdmin)
-
     def eliminarObjeto(modeladmin, request, queryset):
         for objeto in queryset:
             objeto.borrarObjeto()
@@ -36,17 +34,6 @@ admin.site.register(Objeto, ObjetoAdmin)
         descripcion = ("Se añadio el objeto: " + obj.modelo + ", " +obj.marca)
 
         Registro.objects.create(fecha=timestr, descripcion= descripcion)
-
-
-
-
-
-
-#class MyAdminView(admin.ModelAdmin):
-
-
-
-
 
 admin.site.register(Objeto,ObjetoAdmin)
 admin.site.register(Registro, RegistroAdmin)
