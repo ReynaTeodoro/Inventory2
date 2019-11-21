@@ -54,12 +54,6 @@ class Objeto(models.Model):
     conjunto = models.ForeignKey('Conjunto', on_delete=models.CASCADE)
     categoria = models.ForeignKey('Categoria', on_delete=models.CASCADE)
 
-    def borrarObjeto(self):
-
-        self.delete()
-        timestr = datetime.datetime.now()
-        descripcion = ("Se borro el objeto: " +  self.id_Colegio)
-        Registro.objects.create(fecha=timestr,descripcion=descripcion)
 
     def __str__(self):
         return self.modelo
@@ -67,6 +61,7 @@ class Objeto(models.Model):
 class Registro(models.Model):
     fecha = models.DateField()
     descripcion = models.CharField(max_length=30)
+    usuario = models.CharField(max_length=30)
 
     def __str__(self):
         return str(self.fecha)
