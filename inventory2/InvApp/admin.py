@@ -2,21 +2,22 @@ from django.contrib import admin
 from .models import Objeto, Registro, Usuario, Laboratorio, Conjunto, Armario, Especialidad, Categoria
 from django.contrib.admin.helpers import ActionForm
 from django import forms
+import datetime
 
 
 class RegistroAdmin(admin.ModelAdmin):
-    list_display = ('fecha', 'descripcion', 'usuario')
+    list_display = ('fecha', 'descripcion', Usuario)
 
 def multiplicar_objeto(modeladmin, request, queryset):
-    pass
+    veces = request.POST.get('veces')
+    for i in range(int(veces)):
+        for object in queryset:
+            object.id = None
+            object.save()
 
 class MultiplicarObjeto(ActionForm):
-	price = forms.IntegerField()
+	veces = forms.IntegerField()
 
-
-class ObjetoAdmin(admin.ModelAdmin):
-    action_form = MultiplicarObjeto
-    actions = [multiplicar_objeto, ]
 
 class ConjuntoAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'descripcion', 'contar')
@@ -34,8 +35,11 @@ class ObjetoAdmin(admin.ModelAdmin):
     def eliminarObjeto(modeladmin, request, queryset):
         for objeto in queryset:
             objeto.borrarObjeto()
+            objeto.delete()
 
-    actions = [eliminarObjeto,]
+
+    actions = [eliminarObjeto, multiplicar_objeto]
+    action_form = MultiplicarObjeto
 
     def save_model(self, request, obj, form, change):
         obj.user = request.user
@@ -45,7 +49,7 @@ class ObjetoAdmin(admin.ModelAdmin):
 
         Registro.objects.create(fecha=timestr, descripcion= descripcion)
 
-admin.site.register(Objeto,ObjetoAdmin)
+admin.site.register(Objeto, ObjetoAdmin)
 admin.site.register(Registro, RegistroAdmin)
 admin.site.register(Usuario)
 admin.site.register(Laboratorio)

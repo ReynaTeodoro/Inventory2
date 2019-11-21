@@ -2,6 +2,7 @@ from django.db import models
 from django import forms
 from django.db.models import Count
 from django.contrib.admin.helpers import ActionForm
+import datetime
 
 class Categoria(models.Model):
     nombre = models.CharField(max_length=30)
@@ -56,7 +57,6 @@ class Objeto(models.Model):
 
     def borrarObjeto(self):
 
-        self.delete()
         timestr = datetime.datetime.now()
         descripcion = ("Se borro el objeto: " +  self.id_Colegio)
         Registro.objects.create(fecha=timestr,descripcion=descripcion)
