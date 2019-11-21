@@ -3,10 +3,14 @@ from .models import Objeto, Registro, Usuario, Laboratorio, Conjunto, Armario, E
 from django.contrib.admin.helpers import ActionForm
 from django import forms
 import datetime
+from django.shortcuts import redirect
 
+def redirect_pdf(modeladmin, request, queryset):
+    return redirect("http://127.0.0.1:8000")
 
 class RegistroAdmin(admin.ModelAdmin):
     list_display = ('fecha', 'descripcion', Usuario)
+    actions = [redirect_pdf]
 
 def multiplicar_objeto(modeladmin, request, queryset):
     veces = request.POST.get('veces')
@@ -17,6 +21,7 @@ def multiplicar_objeto(modeladmin, request, queryset):
 
 class MultiplicarObjeto(ActionForm):
 	veces = forms.IntegerField()
+
 
 
 class ConjuntoAdmin(admin.ModelAdmin):
@@ -34,12 +39,9 @@ class ObjetoAdmin(admin.ModelAdmin):
 
     def eliminarObjeto(modeladmin, request, queryset):
         for objeto in queryset:
+            objeto.borrarObjeto()
             objeto.delete()
-            timestr = datetime.datetime.now()
-            descripcion = ("Se borro el objeto: " +  objeto.id_Colegio)
-            user_name = None
-            user_name = request.user.get_username()
-            Registro.objects.create(fecha=timestr,descripcion=descripcion, usuario=user_name)
+
 
     actions = [eliminarObjeto, multiplicar_objeto]
     action_form = MultiplicarObjeto
