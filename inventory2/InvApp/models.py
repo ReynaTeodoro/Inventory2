@@ -1,10 +1,8 @@
 from django.db import models
 from django import forms
 from django.db.models import Count
-
-
-# Create your models here.
-from django.db import models
+from django.contrib.admin.helpers import ActionForm
+import datetime
 
 class Categoria(models.Model):
     nombre = models.CharField(max_length=30)
@@ -29,7 +27,12 @@ class Conjunto(models.Model):
     def __str__(self):
         return self.nombre
 
+
+class MultiplicarObjeto(ActionForm):
+	price = forms.IntegerField()
+
 class Objeto(models.Model):
+    action_form = MultiplicarObjeto
     marca = models.CharField(max_length=30)
     modelo = models.CharField(max_length=30)
     estado = [
@@ -52,6 +55,11 @@ class Objeto(models.Model):
     conjunto = models.ForeignKey('Conjunto', on_delete=models.CASCADE)
     categoria = models.ForeignKey('Categoria', on_delete=models.CASCADE)
 
+    def borrarObjeto(self):
+
+        timestr = datetime.datetime.now()
+        descripcion = ("Se borro el objeto: " +  self.id_Colegio)
+        Registro.objects.create(fecha=timestr,descripcion=descripcion)
 
     def __str__(self):
         return self.modelo
@@ -60,11 +68,8 @@ class Registro(models.Model):
     fecha = models.DateField()
     descripcion = models.CharField(max_length=30)
 
-    conjuntos = models.ManyToManyField(Conjunto)
-    usuario = models.ForeignKey('Usuario', on_delete=models.CASCADE)
-
     def __str__(self):
-        return self.fecha
+        return str(self.fecha)
 
 class Usuario(models.Model):
     nombre = models.CharField(max_length=30)
