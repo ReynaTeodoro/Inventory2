@@ -14,7 +14,6 @@ class Categoria(models.Model):
 class Conjunto(models.Model):
     nombre = models.CharField(max_length=30)
     descripcion = models.CharField(max_length=30)
-
     categoria = models.ForeignKey('Categoria', on_delete=models.CASCADE)
 
     def contar(self):
@@ -54,8 +53,6 @@ class Objeto(models.Model):
     armario = models.ForeignKey('Armario', on_delete=models.CASCADE)
     conjunto = models.ForeignKey('Conjunto', on_delete=models.CASCADE)
     categoria = models.ForeignKey('Categoria', on_delete=models.CASCADE)
-
-
 
     def __str__(self):
         return self.modelo
