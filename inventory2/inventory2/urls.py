@@ -19,4 +19,5 @@ from InvApp import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('registro/', views.registroPdf),
 ]
