@@ -1,10 +1,7 @@
 from django.db import models
 from django import forms
 from django.db.models import Count
-
-
-# Create your models here.
-from django.db import models
+from django.contrib.admin.helpers import ActionForm
 
 class Categoria(models.Model):
     nombre = models.CharField(max_length=30)
@@ -29,7 +26,12 @@ class Conjunto(models.Model):
     def __str__(self):
         return self.nombre
 
+
+class MultiplicarObjeto(ActionForm):
+	price = forms.IntegerField()
+
 class Objeto(models.Model):
+    action_form = MultiplicarObjeto
     marca = models.CharField(max_length=30)
     modelo = models.CharField(max_length=30)
     estado = [

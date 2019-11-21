@@ -1,12 +1,22 @@
 from django.contrib import admin
 from .models import Objeto, Registro, Usuario, Laboratorio, Conjunto, Armario, Especialidad, Categoria
-# Register your models here.
-
+from django.contrib.admin.helpers import ActionForm
+from django import forms
 
 
 class RegistroAdmin(admin.ModelAdmin):
     list_display = ('fecha', 'descripcion', 'usuario')
 
+def multiplicar_objeto(modeladmin, request, queryset):
+    pass
+
+class MultiplicarObjeto(ActionForm):
+	price = forms.IntegerField()
+
+
+class ObjetoAdmin(admin.ModelAdmin):
+    action_form = MultiplicarObjeto
+    actions = [multiplicar_objeto, ]
 
 class ConjuntoAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'descripcion', 'contar')
