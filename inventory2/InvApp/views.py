@@ -14,11 +14,11 @@ def registroPdf(request):
     p.drawString(220, 800, "Registro del "+str(today))
     p.drawString(30, 770,"Solicitado por: "+solicitador)
     y = 750
-    for i in range(6):
+    for i in pruebas:
+        p.drawString(30, y, "•"+"Esto va asi por ahora gente: ")
+        y -= 20
 
-        p.drawString(30, y, "•"+"Esto va asi por ahora gente")
-        y -=20
-
+        p.drawString(30, y, '')
 
     p.showPage()
     p.save()

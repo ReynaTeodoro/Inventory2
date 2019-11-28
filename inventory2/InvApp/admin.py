@@ -6,13 +6,16 @@ import datetime
 from django.shortcuts import redirect
 
 def redirect_pdf(modeladmin, request, queryset):
+#Ves esto Diego?
     return redirect("http://127.0.0.1:8000/registro")
+
 
 class RegistroAdmin(admin.ModelAdmin):
     list_display = ('fecha', 'descripcion', 'usuario')
     list_filter = ('usuario', 'fecha',)
     search_fields = ['usuario','fecha', 'descripcion']
     actions = [redirect_pdf]
+
 
 def multiplicar_objeto(modeladmin, request, queryset):
     veces = request.POST.get('veces')
@@ -25,7 +28,6 @@ class MultiplicarObjeto(ActionForm):
 	veces = forms.IntegerField()
 
 
-
 class ConjuntoAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'descripcion', 'categoria',)
     list_filter = ('nombre',  'categoria' ,)
@@ -33,9 +35,11 @@ class ConjuntoAdmin(admin.ModelAdmin):
 
 
 class ObjetoAdmin(admin.ModelAdmin):
+
     change_list_template = 'change_list.html'
     list_filter = ('marca',  'modelo' , 'estado', )
     search_fields = ['modelo', 'marca', 'estado', 'condicion', 'descripcion','id_Colegio', 'armario', 'conjunto', 'categoria']
+
 
     def changelist_view(self, request):
         extra_context = {
@@ -46,9 +50,13 @@ class ObjetoAdmin(admin.ModelAdmin):
 
     def eliminarObjeto(modeladmin, request, queryset):
         for objeto in queryset:
-            objeto.borrarObjeto()
-            objeto.delete()
 
+            objeto.delete()
+            timestr = datetime.datetime.now()
+            descripcion = ("Se borro el objeto: " +  objeto.id_Colegio)
+            user_name = None
+            user_name = request.user.get_username()
+            Registro.objects.create(fecha=timestr,descripcion=descripcion, usuario=user_name)
 
     actions = [eliminarObjeto, multiplicar_objeto]
     action_form = MultiplicarObjeto
