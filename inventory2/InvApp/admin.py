@@ -73,7 +73,7 @@ class ObjetoAdmin(admin.ModelAdmin):
         new_armario = request.POST.get('veces')
         for objeto in queryset:
             timestr = datetime.datetime.now()
-            descripcion = ("Se movio el objeto: " + objeto.modelo + ", " + objeto.marca + ' del armario: ' + objeto.armario.nombre + ' al armario con id: '+ new_armario)
+            descripcion = ("Se movio el objeto: " + objeto.modelo + ", " + objeto.marca + ' del armario: ' + objeto.armario.nombre + ' al armario ' + Armario.objects.get(id=new_armario).nombre)
             #user_name = None
             #user_name = request.user.get_username()
             Registro.objects.create(fecha=timestr,descripcion=descripcion)
