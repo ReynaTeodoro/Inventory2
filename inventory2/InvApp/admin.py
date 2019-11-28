@@ -9,14 +9,10 @@ def redirect_pdf(modeladmin, request, queryset):
     return redirect("http://127.0.0.1:8000/registro")
 
 class RegistroAdmin(admin.ModelAdmin):
-<<<<<<< HEAD
     list_display = ('fecha', 'descripcion', Usuario)
-    actions = [redirect_pdf]
-=======
-    list_display = ('fecha', 'descripcion', 'usuario')
+    actions = [redirect_pdf]isplay = ('fecha', 'descripcion', 'usuario')
     list_filter = ('usuario', 'fecha',)
     search_fields = ['usuario','fecha', 'descripcion']
->>>>>>> filters
 
 def multiplicar_objeto(modeladmin, request, queryset):
     veces = request.POST.get('veces')
