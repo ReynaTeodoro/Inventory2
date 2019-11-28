@@ -48,8 +48,13 @@ class ObjetoAdmin(admin.ModelAdmin):
 
     def eliminarObjeto(modeladmin, request, queryset):
         for objeto in queryset:
-            objeto.borrarObjeto()
+
             objeto.delete()
+            timestr = datetime.datetime.now()
+            descripcion = ("Se borro el objeto: " +  objeto.id_Colegio)
+            user_name = None
+            user_name = request.user.get_username()
+            Registro.objects.create(fecha=timestr,descripcion=descripcion, usuario=user_name)
 
 
     actions = [eliminarObjeto, multiplicar_objeto]
