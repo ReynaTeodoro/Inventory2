@@ -84,10 +84,10 @@
   <div class="footer">
     <div class="Mover" style="display: inline-block !important;">
       <div class="nav-item dropdown">
-        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Move to<button class="btn btn-primary" style="margin-left:40px;" type="button" data-toggle="dropdown">Confirm
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Laboratorios
         <div class="dropdown-menu dropdown-menu-right" style="margin-left:60px;" aria-labelledby="navbarDropdown">
           {% for i in armarios %}
-            <a class="dropdown-item" href="#">{{i.nombre}}</a>
+            <a class="dropdown-item" href="#">id:{{i.id}} nombre:{{i.nombre}}</a>
           {% endfor %}
         </div>
       </div>

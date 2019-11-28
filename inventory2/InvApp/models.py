@@ -88,6 +88,10 @@ class Armario(models.Model):
         return self.nombre
 
 class Especialidad(models.Model):
+
+    class Meta:
+        verbose_name_plural = 'Especialidades'
+
     materia = models.CharField(max_length=30)
 
     def __str__(self):
