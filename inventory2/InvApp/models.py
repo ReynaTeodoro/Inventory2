@@ -26,12 +26,7 @@ class Conjunto(models.Model):
     def __str__(self):
         return self.nombre
 
-
-class MultiplicarObjeto(ActionForm):
-	price = forms.IntegerField()
-
 class Objeto(models.Model):
-    action_form = MultiplicarObjeto
     marca = models.CharField(max_length=30)
     modelo = models.CharField(max_length=30)
     estado = [
