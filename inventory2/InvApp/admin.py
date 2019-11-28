@@ -11,8 +11,8 @@ def redirect_pdf(modeladmin, request, queryset):
 
 
 class RegistroAdmin(admin.ModelAdmin):
-    list_display = ('fecha', 'descripcion', Usuario)
-    actions = [redirect_pdf]isplay = ('fecha', 'descripcion', 'usuario')
+    list_display = ('fecha', 'descripcion', 'usuario')
+    actions = [redirect_pdf]
     list_filter = ('usuario', 'fecha',)
     search_fields = ['usuario','fecha', 'descripcion']
 
