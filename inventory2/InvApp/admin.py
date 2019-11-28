@@ -6,7 +6,9 @@ import datetime
 from django.shortcuts import redirect
 
 def redirect_pdf(modeladmin, request, queryset):
+#Ves esto Diego?
     return redirect("http://127.0.0.1:8000/registro")
+
 
 class RegistroAdmin(admin.ModelAdmin):
     list_display = ('fecha', 'descripcion', Usuario)
