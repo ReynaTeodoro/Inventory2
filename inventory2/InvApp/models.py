@@ -22,7 +22,7 @@ class Conjunto(models.Model):
         valConjunto = conjunto.filter(nombre=self.nombre).values_list('objeto__count')
         strConjunto = re.findall('\d+', str(valConjunto))
         return strConjunto
-        
+
     def __str__(self):
         return self.nombre
 
@@ -76,21 +76,6 @@ class Usuario(models.Model):
 class Laboratorio(models.Model):
     ubicacion = models.IntegerField()
     nombre = models.CharField(max_length=30)
-
-    def __str__(self):
-        return self.nombre
-
-    def registrarObjeto(arg):
-        pass
-
-    def agregar(arg):
-        pass
-
-    def quitar(arg):
-        pass
-
-    def moverObjeto(arg):
-        pass
 
 
 

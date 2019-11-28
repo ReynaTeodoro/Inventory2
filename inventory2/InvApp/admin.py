@@ -35,23 +35,23 @@ class ConjuntoAdmin(admin.ModelAdmin):
 class ObjetoAdmin(admin.ModelAdmin):
     change_list_template = 'change_list.html'
     list_filter = ('marca',  'modelo' , 'estado', )
+    list_display = ('marca', 'modelo', 'estado', 'condicion', 'descripcion', 'id_Colegio','armario', 'conjunto', 'categoria', )
     search_fields = ['modelo', 'marca', 'estado', 'condicion', 'descripcion','id_Colegio', 'armario', 'conjunto', 'categoria']
 
     def changelist_view(self, request):
         extra_context = {
-            'labs': Laboratorio.objects.all(),
+            'armarios': Armario.objects.all(),
             'objetos': Objeto.objects.all()
         }
         return super(ObjetoAdmin, self).changelist_view(request, extra_context=extra_context)
 
     def eliminarObjeto(modeladmin, request, queryset):
         for objeto in queryset:
-            objeto.borrarObjeto()
-            objeto.delete()
+            obj.user = request.user
+            timestr = datetime.datetime.now()
+            descripcion = ("Se borro el objeto: " + obj.modelo + ", " +obj.marca)
 
-
-    actions = [eliminarObjeto, multiplicar_objeto]
-    action_form = MultiplicarObjeto
+            Registro.objects.create(fecha=timestr, descripcion= descripcion)
 
     def save_model(self, request, obj, form, change):
         obj.user = request.user
@@ -61,6 +61,16 @@ class ObjetoAdmin(admin.ModelAdmin):
 
         Registro.objects.create(fecha=timestr, descripcion= descripcion)
 
+    def mover(request, modeladmin, queryset):
+        new_armario = '2'
+        #obj.user = request.user
+        #timestr = datetime.datetime.now()
+        #descripcion = ("Se movio el objeto: " + obj.modelo + ", " + obj.marca + ' al armario: ' + obj.armario)
+        #Registro.objects.create(fecha=timestr, descripcion= descripcion)
+        return queryset.update(armario = new_armario)
+
+    actions = [eliminarObjeto, multiplicar_objeto,mover]
+    action_form = MultiplicarObjeto
 class UsuarioAdmin(admin.ModelAdmin):
     list_display = ('nombre','apellido','mail',)
     list_filter = ('nombre','apellido',)
