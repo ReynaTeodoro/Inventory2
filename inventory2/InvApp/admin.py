@@ -4,28 +4,24 @@ from django.contrib.admin.helpers import ActionForm
 from django import forms
 import datetime
 from django.shortcuts import redirect
+from .views import *
 
-def redirect_pdf(modeladmin, request, queryset):
-#Ves esto Diego?
-    return redirect("http://127.0.0.1:8000/registro")
+
 
 
 class RegistroAdmin(admin.ModelAdmin):
     list_display = ('fecha', 'descripcion', 'usuario')
-    actions = [redirect_pdf]
     list_filter = ('usuario', 'fecha',)
     search_fields = ['usuario','fecha', 'descripcion']
 
-def multiplicar_objeto(modeladmin, request, queryset):
-    veces = request.POST.get('veces')
-    for i in range(int(veces)):
-        for object in queryset:
-            object.id = None
-            object.save()
+    def redirect_pdf(modeladmin, request, queryset):
+        return registroPdf(request, queryset)
+    redirect_pdf.short_description = "Imprimir registro(s)"
+
+    actions = [redirect_pdf]
 
 class MultiplicarObjeto(ActionForm):
 	veces = forms.IntegerField()
-
 
 
 class ConjuntoAdmin(admin.ModelAdmin):
@@ -38,6 +34,19 @@ class ObjetoAdmin(admin.ModelAdmin):
     change_list_template = 'change_list.html'
     list_filter = ('marca',  'modelo' , 'estado', )
     search_fields = ['modelo', 'marca', 'estado', 'condicion', 'descripcion','id_Colegio', 'armario', 'conjunto', 'categoria']
+
+    def objeto_pdf(modeladmin, request, queryset):
+        return objetoPdf(request, queryset)
+    objeto_pdf.short_description = "Imprimir objeto(s)"
+
+    def multiplicar_objeto(modeladmin, request, queryset):
+        veces = request.POST.get('veces')
+        print(veces)
+        for i in range(int(veces)):
+            for object in queryset:
+                object.id = None
+                object.save()
+    multiplicar_objeto.short_description = "Multiplicar objeto(s)"
 
     def changelist_view(self, request):
         extra_context = {
@@ -55,9 +64,10 @@ class ObjetoAdmin(admin.ModelAdmin):
             user_name = None
             user_name = request.user.get_username()
             Registro.objects.create(fecha=timestr,descripcion=descripcion, usuario=user_name)
+    eliminarObjeto.short_description = "Borrar objeto(s) y registrarlo(s)"
 
+    actions = [eliminarObjeto, multiplicar_objeto, objeto_pdf]
 
-    actions = [eliminarObjeto, multiplicar_objeto]
     action_form = MultiplicarObjeto
 
     def save_model(self, request, obj, form, change):
