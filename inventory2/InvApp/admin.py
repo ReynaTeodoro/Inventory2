@@ -29,7 +29,7 @@ class MultiplicarObjeto(ActionForm):
 
 
 class ConjuntoAdmin(admin.ModelAdmin):
-    list_display = ('nombre', 'descripcion', 'categoria',)
+    list_display = ('nombre', 'descripcion', 'categoria', 'contar')
     list_filter = ('nombre',  'categoria' ,)
     search_fields = ['nombre', 'categoria__nombre',]
 
@@ -38,19 +38,19 @@ class ObjetoAdmin(admin.ModelAdmin):
 
     change_list_template = 'change_list.html'
     list_filter = ('marca',  'modelo' , 'estado', )
+    list_display = ('marca', 'modelo', 'estado', 'condicion', 'descripcion', 'id_Colegio','armario', 'conjunto', 'categoria', )
     search_fields = ['modelo', 'marca', 'estado', 'condicion', 'descripcion','id_Colegio', 'armario', 'conjunto', 'categoria']
 
 
     def changelist_view(self, request):
         extra_context = {
-            'labs': Laboratorio.objects.all(),
+            'armarios': Armario.objects.all(),
             'objetos': Objeto.objects.all()
         }
         return super(ObjetoAdmin, self).changelist_view(request, extra_context=extra_context)
 
     def eliminarObjeto(modeladmin, request, queryset):
         for objeto in queryset:
-
             objeto.delete()
             timestr = datetime.datetime.now()
             descripcion = ("Se borro el objeto: " +  objeto.id_Colegio)
@@ -69,6 +69,18 @@ class ObjetoAdmin(admin.ModelAdmin):
 
         Registro.objects.create(fecha=timestr, descripcion= descripcion)
 
+    def mover(modeladmin, request, queryset):
+        new_armario = request.POST.get('veces')
+        for objeto in queryset:
+            timestr = datetime.datetime.now()
+            descripcion = ("Se movio el objeto: " + objeto.modelo + ", " + objeto.marca + ' del armario: ' + objeto.armario.nombre + ' al armario con id: '+ new_armario)
+            #user_name = None
+            #user_name = request.user.get_username()
+            Registro.objects.create(fecha=timestr,descripcion=descripcion)
+
+        return queryset.update(armario = new_armario)
+    actions = [eliminarObjeto, multiplicar_objeto, mover]
+    action_form = MultiplicarObjeto
 class UsuarioAdmin(admin.ModelAdmin):
     list_display = ('nombre','apellido','mail',)
     list_filter = ('nombre','apellido',)

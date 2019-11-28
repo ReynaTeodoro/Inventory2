@@ -77,21 +77,6 @@ class Laboratorio(models.Model):
     ubicacion = models.IntegerField()
     nombre = models.CharField(max_length=30)
 
-    def __str__(self):
-        return self.nombre
-
-    def registrarObjeto(arg):
-        pass
-
-    def agregar(arg):
-        pass
-
-    def quitar(arg):
-        pass
-
-    def moverObjeto(arg):
-        pass
-
 
 
 class Armario(models.Model):
