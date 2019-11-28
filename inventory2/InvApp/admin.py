@@ -12,7 +12,10 @@ def redirect_pdf(modeladmin, request, queryset):
 
 class RegistroAdmin(admin.ModelAdmin):
     list_display = ('fecha', 'descripcion', 'usuario')
+<<<<<<< HEAD
     actions = [redirect_pdf]
+=======
+>>>>>>> 3f51a7fe6a5071d55a67f24b10f756a4e9e7191f
     list_filter = ('usuario', 'fecha',)
     search_fields = ['usuario','fecha', 'descripcion']
 
@@ -27,7 +30,6 @@ class MultiplicarObjeto(ActionForm):
 	veces = forms.IntegerField()
 
 
-
 class ConjuntoAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'descripcion', 'categoria',)
     list_filter = ('nombre',  'categoria' ,)
@@ -35,9 +37,11 @@ class ConjuntoAdmin(admin.ModelAdmin):
 
 
 class ObjetoAdmin(admin.ModelAdmin):
+
     change_list_template = 'change_list.html'
     list_filter = ('marca',  'modelo' , 'estado', )
     search_fields = ['modelo', 'marca', 'estado', 'condicion', 'descripcion','id_Colegio', 'armario', 'conjunto', 'categoria']
+
 
     def changelist_view(self, request):
         extra_context = {
@@ -55,7 +59,6 @@ class ObjetoAdmin(admin.ModelAdmin):
             user_name = None
             user_name = request.user.get_username()
             Registro.objects.create(fecha=timestr,descripcion=descripcion, usuario=user_name)
-
 
     actions = [eliminarObjeto, multiplicar_objeto]
     action_form = MultiplicarObjeto
