@@ -37,11 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-<<<<<<< HEAD
-    'inventario2',
-=======
     'InvApp',
->>>>>>> develop
 ]
 
 MIDDLEWARE = [
