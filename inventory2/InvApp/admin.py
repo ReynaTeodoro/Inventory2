@@ -5,6 +5,7 @@ from django import forms
 import datetime
 from django.shortcuts import redirect
 from .views import *
+import re
 
 
 
@@ -49,6 +50,15 @@ class ObjetoAdmin(admin.ModelAdmin):
         print(veces)
         for i in range(int(veces)):
             for object in queryset:
+                id_cole = (object.id_Colegio)
+                numeros = re.findall(r'\d+', str(id_cole))
+                letras = re.findall("[a-zA-Z]+", str(id_cole))
+                print(str(int(numeros[0])+1))
+                print(letras)
+                if not letras:
+                    object.id_Colegio = str(int(numeros[0])+1)
+                else:
+                    object.id_Colegio = str(letras[0])+str(int(numeros[0])+1)
                 object.id = None
                 object.save()
     multiplicar_objeto.short_description = "Multiplicar objeto(s)"
