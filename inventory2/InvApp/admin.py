@@ -82,7 +82,6 @@ class ObjetoAdmin(admin.ModelAdmin):
     eliminarObjeto.short_description = "Borrar objeto(s) y registrarlo(s)"
 
 
-    actions = [eliminarObjeto, multiplicar_objeto, objeto_pdf]
 
 
     action_form = MultiplicarObjeto
@@ -109,7 +108,7 @@ class ObjetoAdmin(admin.ModelAdmin):
                 pass
 
 
-    actions = [eliminarObjeto, multiplicar_objeto, mover]
+    actions = [eliminarObjeto, multiplicar_objeto, mover, objeto_pdf]
     action_form = MultiplicarObjeto
 class UsuarioAdmin(admin.ModelAdmin):
     list_display = ('nombre','apellido','mail',)
