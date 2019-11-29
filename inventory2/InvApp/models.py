@@ -69,7 +69,7 @@ class Usuario(models.Model):
         return self.nombre
 
 class Laboratorio(models.Model):
-    ubicacion = models.IntegerField()
+    ubicacion = models.CharField(max_length=30)
     nombre = models.CharField(max_length=30)
 
 
