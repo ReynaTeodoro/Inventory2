@@ -15,6 +15,9 @@ def registroPdf(request, queryset):
     p.drawString(30, 770,"Solicitado por: "+solicitador)
     y = 750
     for i in queryset.order_by('id'):
+        if (y <= 100):
+            p.showPage()
+            y = 750
         p.drawString(30, y, "•"+"Registro "+str(i.id))
         y -= 15
         p.drawString(40, y, "Fecha: "+str(i.fecha))
