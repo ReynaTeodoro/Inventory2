@@ -13,7 +13,7 @@ class RegistroAdmin(admin.ModelAdmin):
     list_display = ('fecha', 'descripcion', 'usuario')
     list_filter = ('usuario', 'fecha',)
     search_fields = ['usuario','fecha', 'descripcion']
-    actions = [redirect_pdf]
+
 
 
     def redirect_pdf(modeladmin, request, queryset):
@@ -39,8 +39,7 @@ class ObjetoAdmin(admin.ModelAdmin):
     list_display = ('marca', 'modelo', 'estado', 'condicion', 'descripcion', 'id_Colegio','armario', 'conjunto', 'categoria', )
     search_fields = ['modelo', 'marca', 'estado', 'condicion', 'descripcion','id_Colegio', 'armario', 'conjunto', 'categoria']
 
-<<<<<<< HEAD
-=======
+
     def objeto_pdf(modeladmin, request, queryset):
         return objetoPdf(request, queryset)
     objeto_pdf.short_description = "Imprimir objeto(s)"
@@ -53,7 +52,7 @@ class ObjetoAdmin(admin.ModelAdmin):
                 object.id = None
                 object.save()
     multiplicar_objeto.short_description = "Multiplicar objeto(s)"
->>>>>>> pdfnew
+
 
     def changelist_view(self, request):
         extra_context = {
@@ -72,12 +71,10 @@ class ObjetoAdmin(admin.ModelAdmin):
             Registro.objects.create(fecha=timestr,descripcion=descripcion, usuario=user_name)
     eliminarObjeto.short_description = "Borrar objeto(s) y registrarlo(s)"
 
-<<<<<<< HEAD
-    actions = [eliminarObjeto, multiplicar_objeto]
-=======
+
     actions = [eliminarObjeto, multiplicar_objeto, objeto_pdf]
 
->>>>>>> pdfnew
+
     action_form = MultiplicarObjeto
 
     def save_model(self, request, obj, form, change):
@@ -93,9 +90,9 @@ class ObjetoAdmin(admin.ModelAdmin):
         for objeto in queryset:
             timestr = datetime.datetime.now()
             descripcion = ("Se movio el objeto: " + objeto.modelo + ", " + objeto.marca + ' del armario: ' + objeto.armario.nombre + ' al armario ' + Armario.objects.get(id=new_armario).nombre)
-            #user_name = None
-            #user_name = request.user.get_username()
-            Registro.objects.create(fecha=timestr,descripcion=descripcion)
+            user_name = None
+            user_name = request.user.get_username()
+            Registro.objects.create(fecha=timestr,descripcion=descripcion, usuario=user_name)
 
         return queryset.update(armario = new_armario)
     actions = [eliminarObjeto, multiplicar_objeto, mover]
