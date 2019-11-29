@@ -98,13 +98,17 @@ class ObjetoAdmin(admin.ModelAdmin):
     def mover(modeladmin, request, queryset):
         new_armario = request.POST.get('veces')
         for objeto in queryset:
-            timestr = datetime.datetime.now()
-            descripcion = ("Se movio el objeto: " + objeto.modelo + ", " + objeto.marca + ' del armario: ' + objeto.armario.nombre + ' al armario ' + Armario.objects.get(id=new_armario).nombre)
-            user_name = None
-            user_name = request.user.get_username()
-            Registro.objects.create(fecha=timestr,descripcion=descripcion, usuario=user_name)
+            if (objeto.estado != 2):
+                timestr = datetime.datetime.now()
+                descripcion = ("Se movio el objeto: " + objeto.modelo + ", " + objeto.marca + ' del armario: ' + objeto.armario.nombre + ' al armario ' + Armario.objects.get(id=new_armario).nombre)
+                user_name = request.user.get_username()
+                Registro.objects.create(fecha=timestr,descripcion=descripcion, usuario=user_name)
+                objeto.armario = Armario.objects.get(id=new_armario)
+                objeto.save()
+            elif(objeto.estado == 2):
+                pass
 
-        return queryset.update(armario = new_armario)
+
     actions = [eliminarObjeto, multiplicar_objeto, mover]
     action_form = MultiplicarObjeto
 class UsuarioAdmin(admin.ModelAdmin):
