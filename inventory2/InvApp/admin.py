@@ -1,11 +1,19 @@
 from django.contrib import admin
-from .models import Objeto, Registro, Usuario, Laboratorio, Conjunto, Armario, Especialidad, Categoria
+from .models import Objeto, Registro, Laboratorio, Conjunto, Armario, Especialidad, Categoria
 from django.contrib.admin.helpers import ActionForm
 from django import forms
 import datetime
 from django.shortcuts import redirect
 from .views import *
 import re
+
+
+class ArmarioInline(admin.TabularInline):
+    model = Armario
+
+class ObjetoInline(admin.TabularInline):
+    model = Objeto
+
 
 class RegistroAdmin(admin.ModelAdmin):
     list_display = ('fecha', 'descripcion', 'usuario')
@@ -14,6 +22,7 @@ class RegistroAdmin(admin.ModelAdmin):
 
     def redirect_pdf(modeladmin, request, queryset):
         return registroPdf(request, queryset=queryset)
+
     redirect_pdf.short_description = "Imprimir registro(s)"
 
     actions = [redirect_pdf]
@@ -26,9 +35,9 @@ class ConjuntoAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'descripcion', 'categoria', 'contar')
     list_filter = ('nombre',  'categoria' ,)
     search_fields = ['nombre', 'categoria__nombre',]
+    inlines=[ObjetoInline,]
 
 class ObjetoAdmin(admin.ModelAdmin):
-    
     change_list_template = 'change_list.html'
     list_filter = ('marca',  'modelo' , 'estado', )
     list_display = ('marca', 'modelo', 'estado', 'condicion', 'descripcion', 'id_Colegio','armario', 'conjunto', 'categoria', )
@@ -98,20 +107,18 @@ class ObjetoAdmin(admin.ModelAdmin):
 
     actions = [eliminarObjeto, multiplicar_objeto, mover, objeto_pdf]
     action_form = MultiplicarObjeto
-class UsuarioAdmin(admin.ModelAdmin):
-    list_display = ('nombre','apellido','mail',)
-    list_filter = ('nombre','apellido',)
-    search_fields = ['nombre','apellido','mail']
 
 class LaboratorioAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'ubicacion',)
     list_filter = ('nombre', 'ubicacion',)
     search_fields = ['nombre','ubicacion']
+    inlines=[ArmarioInline,]
 
 class EspecialidadAdmin(admin.ModelAdmin):
     list_display = ('materia',)
     list_filter = ('materia',)
     search_fields = ['materia']
+
 
 class CategoriaAdmin(admin.ModelAdmin):
     list_display = ('nombre',)
@@ -119,13 +126,12 @@ class CategoriaAdmin(admin.ModelAdmin):
     search_fields = ['nombre']
 
 class ArmarioAdmin(admin.ModelAdmin):
-    list_display = ('nombre', 'id_Colegio', 'laboratorio',)
-    list_filter = ('nombre', 'id_Colegio', 'laboratorio',)
-    search_fields = ['nombre', 'id_Colegio', 'laboratorio__nombre']
+    list_display = ('nombre', 'laboratorio',)
+    list_filter = ('nombre', 'laboratorio',)
+    search_fields = ['nombre', 'laboratorio__nombre']
 
 admin.site.register(Objeto, ObjetoAdmin)
 admin.site.register(Registro, RegistroAdmin)
-admin.site.register(Usuario, UsuarioAdmin)
 admin.site.register(Laboratorio, LaboratorioAdmin)
 admin.site.register(Conjunto, ConjuntoAdmin)
 admin.site.register(Armario, ArmarioAdmin)

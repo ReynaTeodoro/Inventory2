@@ -16,10 +16,20 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from InvApp import views
+from django.contrib.auth.models import User, Group
+#Quita user y groups defaults del admin
+admin.site.unregister(User)
+admin.site.unregister(Group)
+#cambia el titulo y texto del admin
+admin.site.site_header = "Inventory2"
+admin.site.site_title = "inventory2"
+admin.site.index_title = "Bienvenido al organizador de inventario del ITS Villada"
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.returnAllObjects),
     path('registro/', views.registroPdf, name='registro'),
     path('objeto/', views.objetoPdf),
+    path('', admin.site.urls),
+    path('jet/', include('jet.urls', 'jet'))
 ]
