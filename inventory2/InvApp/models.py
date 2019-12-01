@@ -60,23 +60,25 @@ class Registro(models.Model):
     def __str__(self):
         return str(self.fecha)
 
-class Usuario(models.Model):
-    nombre = models.CharField(max_length=30)
-    apellido = models.CharField(max_length=30)
-    mail = models.EmailField(max_length=30)
-
-    def __str__(self):
-        return self.nombre
 
 class Laboratorio(models.Model):
     ubicacion = models.CharField(max_length=30)
     nombre = models.CharField(max_length=30)
 
+    def __str__(self):
+        return self.nombre
+
 
 
 class Armario(models.Model):
+    
+    def save_model(self, request, obj, form, change):
+        obj.user = request.user
+        super().save_model(request, obj, form, change)
+        timestr = datetime.datetime.now()
+        descripcion = ("Se añadio el objeto: " + obj.modelo + ", " +obj.marca)
+        Registro.objects.create(fecha=timestr, descripcion= descripcion)
     nombre = models.CharField(max_length=30,default='1')
-    id_Colegio = models.IntegerField()
     laboratorio = models.ForeignKey('Laboratorio', on_delete=models.CASCADE)
 
     def __str__(self):
