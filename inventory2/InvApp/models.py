@@ -67,14 +67,9 @@ class Laboratorio(models.Model):
 
     def __str__(self):
         return self.nombre
-<<<<<<< HEAD
-=======
-
-
->>>>>>> inlines
 
 class Armario(models.Model):
-    
+
     def save_model(self, request, obj, form, change):
         obj.user = request.user
         super().save_model(request, obj, form, change)
