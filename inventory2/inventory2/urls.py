@@ -19,6 +19,7 @@ from InvApp import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('registro/', views.registroPdf),
+    path('', views.returnAllObjects),
+    path('registro/', views.registroPdf, name='registro'),
     path('objeto/', views.objetoPdf),
 ]

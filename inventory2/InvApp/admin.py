@@ -7,18 +7,13 @@ from django.shortcuts import redirect
 from .views import *
 import re
 
-
-
-
 class RegistroAdmin(admin.ModelAdmin):
     list_display = ('fecha', 'descripcion', 'usuario')
     list_filter = ('usuario', 'fecha',)
     search_fields = ['usuario','fecha', 'descripcion']
 
-
-
     def redirect_pdf(modeladmin, request, queryset):
-        return registroPdf(request, queryset)
+        return registroPdf(request, queryset=queryset)
     redirect_pdf.short_description = "Imprimir registro(s)"
 
     actions = [redirect_pdf]
@@ -32,9 +27,8 @@ class ConjuntoAdmin(admin.ModelAdmin):
     list_filter = ('nombre',  'categoria' ,)
     search_fields = ['nombre', 'categoria__nombre',]
 
-
 class ObjetoAdmin(admin.ModelAdmin):
-
+    
     change_list_template = 'change_list.html'
     list_filter = ('marca',  'modelo' , 'estado', )
     list_display = ('marca', 'modelo', 'estado', 'condicion', 'descripcion', 'id_Colegio','armario', 'conjunto', 'categoria', )
@@ -80,10 +74,6 @@ class ObjetoAdmin(admin.ModelAdmin):
             user_name = request.user.get_username()
             Registro.objects.create(fecha=timestr,descripcion=descripcion, usuario=user_name)
     eliminarObjeto.short_description = "Borrar objeto(s) y registrarlo(s)"
-
-
-
-
     action_form = MultiplicarObjeto
 
     def save_model(self, request, obj, form, change):
@@ -97,16 +87,14 @@ class ObjetoAdmin(admin.ModelAdmin):
     def mover(modeladmin, request, queryset):
         new_armario = request.POST.get('veces')
         for objeto in queryset:
-            if (objeto.estado != 2):
+            print(objeto.estado)
+            if (objeto.estado != 3):
                 timestr = datetime.datetime.now()
                 descripcion = ("Se movio el objeto: " + objeto.modelo + ", " + objeto.marca + ' del armario: ' + objeto.armario.nombre + ' al armario ' + Armario.objects.get(id=new_armario).nombre)
                 user_name = request.user.get_username()
                 Registro.objects.create(fecha=timestr,descripcion=descripcion, usuario=user_name)
                 objeto.armario = Armario.objects.get(id=new_armario)
                 objeto.save()
-            elif(objeto.estado == 2):
-                pass
-
 
     actions = [eliminarObjeto, multiplicar_objeto, mover, objeto_pdf]
     action_form = MultiplicarObjeto

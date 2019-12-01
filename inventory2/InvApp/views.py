@@ -3,8 +3,10 @@ import io
 from django.http import FileResponse
 from reportlab.pdfgen import canvas
 import datetime
+from .models import *
 
-def registroPdf(request, queryset):
+
+def registroPdf(request, **kwargs):
     buffer = io.BytesIO()
     p = canvas.Canvas(buffer)
     p.setLineWidth(.3)
@@ -14,21 +16,44 @@ def registroPdf(request, queryset):
     p.drawString(220, 800, "Registro del "+str(today))
     p.drawString(30, 770,"Solicitado por: "+solicitador)
     y = 750
-    for i in queryset.order_by('id'):
-        p.drawString(30, y, "•"+"Registro "+str(i.id))
-        y -= 15
-        p.drawString(40, y, "Fecha: "+str(i.fecha))
-        y -= 15
-        p.drawString(40, y, "Descripcion: "+str(i.descripcion))
-        y -= 15
-        p.drawString(40, y, "Usuario: "+str(i.usuario))
-        y -= 20
+    if 'queryset' in kwargs:
+        for i in kwargs.get('queryset').order_by('id'):
+            if (y <= 100):
+                p.showPage()
+                y = 750
+            p.drawString(30, y, "•"+"Registro "+str(i.id))
+            y -= 15
+            p.drawString(40, y, "Fecha: "+str(i.fecha))
+            y -= 15
+            p.drawString(40, y, "Descripcion: "+str(i.descripcion))
+            y -= 15
+            p.drawString(40, y, "Usuario: "+str(i.usuario))
+            y -= 20
+    else:
+        for i in Registro.objects.all().order_by('id'):
+            if (y <= 100):
+                p.showPage()
+                y = 750
+            p.drawString(30, y, "•"+"Registro "+str(i.id))
+            y -= 15
+            p.drawString(40, y, "Fecha: "+str(i.fecha))
+            y -= 15
+            p.drawString(40, y, "Descripcion: "+str(i.descripcion))
+            y -= 15
+            p.drawString(40, y, "Usuario: "+str(i.usuario))
+            y -= 20
 
     p.showPage()
     p.save()
 
     buffer.seek(0)
     return FileResponse(buffer, as_attachment=False, filename='registro.pdf')
+
+def returnAllObjects(request):
+    return render(request, 'objetos.html', {
+    'objetos' : Objeto.objects.all(),
+    'registros' : Registro.objects.all(),
+    })
 
 def objetoPdf(request, queryset):
     buffer = io.BytesIO()
@@ -75,13 +100,6 @@ def objetoPdf(request, queryset):
             w -= 15
             p.drawString(50, w, "Descripcion: "+str(i.descripcion))
             w -= 20
-
-
-
-
-
-
-
 
     p.showPage()
     p.save()

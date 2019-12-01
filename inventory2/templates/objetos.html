@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <style>table, th, td {border: 1px solid black; text-align:center}</style>
+  </head>
+  <body style="margin-top:10px; margin-left:15px; margin-right:15px;">
+  <div class="top">
+    <h2 style="display: inline;margin-top:15px">Objetos</h2>
+    <a style="display: inline; float:right; margin-top:5px; margin-left:15px;" href="http://127.0.0.1:8000/admin/InvApp/objeto/add/" role="button" class="btn btn-outline-secondary btn-lg">Crear Objeto</a>
+    <a style="display: inline; float:right; margin-top:5px; margin-left:15px;" href="http://127.0.0.1:8000/admin/InvApp/objeto/" class="btn btn-outline-secondary btn-lg">Borrar Objetos</a>
+    <a style="display: inline; float:right; margin-top:5px; margin-left:15px;" href="http://127.0.0.1:8000/admin/InvApp/objeto/" class="btn btn-outline-secondary btn-lg">Mover Objetos</a>
+    <a style="display: inline; float:right; margin-top:5px; margin-left:15px;" href="http://127.0.0.1:8000/admin/InvApp/objeto/" class="btn btn-outline-secondary btn-lg">Multiplicar Objetos</a>
+    <a style="display: inline; float:right; margin-top:5px; margin-left:15px;" href="http://127.0.0.1:8000/admin/InvApp/objeto/" class="btn btn-outline-secondary btn-lg">Imprimir Objetos</a>
+  </div>
+  <br>
+  <div class="tabla">
+    <table style="width:100%">
+      <tr>
+        <th>Marca</th>
+        <th>Modelo</th>
+        <th>Estado</th>
+        <th>Condicion</th>
+        <th>Descripcion</th>
+        <th>Id Del Colegio</th>
+        <th>Armarios</th>
+        <th>Conjuntos</th>
+        <th>Categorias</th>
+      </tr>
+    {% for objeto in objetos%}
+      <tr>
+        <td>{{objeto.marca}}</td>
+        <td>{{objeto.modelo}}</td>
+        <td>{{objeto.estado}}</td>
+        <td>{{objeto.condicion}}</td>
+        <td>{{objeto.descripcion}}</td>
+        <td>{{objeto.id_Colegio}}</td>
+        <td>{{objeto.armario}}</td>
+        <td>{{objeto.conjunto}}</td>
+        <td>{{objeto.categoria}}</td>
+      </tr>
+    {%endfor%}
+    </table>
+  </div>
+
+  <br>
+    <div class="Registro">
+      <button style="display:inline;margin-right:15px;"onclick="mostrarRegistro()" type="button" class="btn btn-outline-secondary btn-lg">Mostrar los ultimos registros</button>
+      <a href="{% url 'registro'%}" class="btn btn-outline-secondary btn-lg" target="_blank">Exportar todos los registros a pdf</a>
+      <a style="float:right;" href="http://127.0.0.1:8000/admin/InvApp/registro/" class="btn btn-outline-secondary btn-lg">Ver más</a>
+          <div id="registros" style="margin-top:1rem;"></div>
+          <script type="text/javascript">
+            function mostrarRegistro() {
+              var str = '{% for registro in registros|slice:9 %}<p>{{registro.descripcion}}</p>{%endfor%}';
+              document.getElementById("registros").innerHTML = str;
+            }
+          </script>
+    </div>
+  </body>
+</html>
