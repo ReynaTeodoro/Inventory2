@@ -26,6 +26,16 @@ class Conjunto(models.Model):
     def __str__(self):
         return self.nombre
 
+class Especialidad(models.Model):
+
+    class Meta:
+        verbose_name_plural = 'Especialidades'
+
+    materia = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.materia
+
 class Objeto(models.Model):
     marca = models.CharField(max_length=30)
     modelo = models.CharField(max_length=30)
@@ -64,6 +74,7 @@ class Registro(models.Model):
 class Laboratorio(models.Model):
     ubicacion = models.IntegerField()
     nombre = models.CharField(max_length=30)
+    especialidad = models.ForeignKey('Especialidad', on_delete=models.CASCADE,default=1)
 
     def __str__(self):
         return self.nombre
@@ -81,13 +92,3 @@ class Armario(models.Model):
 
     def __str__(self):
         return self.nombre
-
-class Especialidad(models.Model):
-
-    class Meta:
-        verbose_name_plural = 'Especialidades'
-
-    materia = models.CharField(max_length=30)
-
-    def __str__(self):
-        return self.materia
