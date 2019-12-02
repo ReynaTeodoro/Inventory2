@@ -36,32 +36,6 @@ class Especialidad(models.Model):
     def __str__(self):
         return self.materia
 
-class Objeto(models.Model):
-    marca = models.CharField(max_length=30)
-    modelo = models.CharField(max_length=30)
-    estado = [
-    (1, "Disponible"),
-    (2, "Prestado"),
-    (3, "En mantenimiento")
-    ]
-    estado = models.IntegerField(choices=estado,default=1)
-    condicion = [
-    (1, "Nuevo"),
-    (2, "Usado"),
-    (3, "Arreglar"),
-    (4, "Roto")
-    ]
-    condicion = models.IntegerField(choices=condicion,default=1)
-    descripcion = models.CharField(max_length=30)
-    id_Colegio = models.CharField(max_length=30)
-
-    armario = models.ForeignKey('Armario', on_delete=models.CASCADE)
-    conjunto = models.ForeignKey('Conjunto', on_delete=models.CASCADE)
-    categoria = models.ForeignKey('Categoria', on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.modelo
-
 class Registro(models.Model):
     fecha = models.DateField()
     descripcion = models.CharField(max_length=30)
@@ -90,5 +64,38 @@ class Armario(models.Model):
     nombre = models.CharField(max_length=30,default='1')
     laboratorio = models.ForeignKey('Laboratorio', on_delete=models.CASCADE)
 
+    def get_laboratorio(self):
+        return self.laboratorio
+
     def __str__(self):
         return self.nombre
+
+class Objeto(models.Model):
+    marca = models.CharField(max_length=30)
+    modelo = models.CharField(max_length=30)
+    estado = [
+    (1, "Disponible"),
+    (2, "Prestado"),
+    (3, "En mantenimiento")
+    ]
+    estado = models.IntegerField(choices=estado,default=1)
+    condicion = [
+    (1, "Nuevo"),
+    (2, "Usado"),
+    (3, "Arreglar"),
+    (4, "Roto")
+    ]
+    condicion = models.IntegerField(choices=condicion,default=1)
+    descripcion = models.CharField(max_length=30)
+    id_Colegio = models.CharField(max_length=30)
+
+    armario = models.ForeignKey('Armario', on_delete=models.CASCADE)
+    conjunto = models.ForeignKey('Conjunto', on_delete=models.CASCADE)
+    categoria = models.ForeignKey('Categoria', on_delete=models.CASCADE)
+
+    def get_armarioLab(self):
+        lab = self.armario.get_laboratorio()
+        return str(lab)
+    get_armarioLab.short_description = ('Laboratorio')
+    def __str__(self):
+        return self.modelo
