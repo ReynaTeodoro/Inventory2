@@ -39,9 +39,9 @@ class ConjuntoAdmin(admin.ModelAdmin):
 
 class ObjetoAdmin(admin.ModelAdmin):
     change_list_template = 'change_list.html'
-    list_filter = ('marca',  'modelo' , 'estado', )
+    list_filter = ('marca',  'condicion' , 'estado', )
     list_display = ('marca', 'modelo', 'estado', 'condicion', 'descripcion', 'id_Colegio','armario', 'conjunto', 'categoria', )
-    search_fields = ['modelo', 'marca', 'estado', 'condicion', 'descripcion','id_Colegio', 'armario', 'conjunto', 'categoria']
+    search_fields = ['marca','modelo','descripcion','id_Colegio','armario__nombre', 'conjunto__nombre', 'categoria__nombre']
 
 
     def objeto_pdf(modeladmin, request, queryset):
