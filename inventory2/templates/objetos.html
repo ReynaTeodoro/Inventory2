@@ -31,7 +31,29 @@
       <tr>
         <td>{{objeto.marca}}</td>
         <td>{{objeto.modelo}}</td>
-        <td>{{objeto.estado}}</td>
+        <div id="estado"></div>
+          {%if objeto.estado == 1%}
+            <td>Disponible</td>
+          {% endif %}
+          {%if objeto.estado == 3%}
+            <td>En mantenimiento</td>
+          {% endif %}
+          {%if objeto.estado == 2%}
+            <td>Prestado</td>
+          {% endif %}
+        <div id="condicion"></div>
+          {%if objeto.condicion == 1%}
+            <td>Nuevo</td>
+          {% endif %}
+          {%if objeto.condicion == 2%}
+            <td>Usado</td>
+          {% endif %}
+          {%if objeto.condicion == 3%}
+            <td>Arreglar</td>
+          {% endif %}
+          {%if objeto.condicion == 4%}
+            <td>Roto</td>
+          {% endif %}
         <td>{{objeto.condicion}}</td>
         <td>{{objeto.descripcion}}</td>
         <td>{{objeto.id_Colegio}}</td>
@@ -42,7 +64,6 @@
     {%endfor%}
     </table>
   </div>
-
   <br>
     <div class="Registro">
       <button style="display:inline;margin-right:15px;"onclick="mostrarRegistro()" type="button" class="btn btn-outline-secondary btn-lg">Mostrar los ultimos registros</button>
