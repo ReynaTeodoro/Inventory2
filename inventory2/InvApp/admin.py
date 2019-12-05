@@ -109,23 +109,27 @@ class ObjetoAdmin(admin.ModelAdmin):
     action_form = MultiplicarObjeto
 
 class LaboratorioAdmin(admin.ModelAdmin):
+    change_list_template = 'change_list2.html'
     list_display = ('nombre', 'ubicacion',)
     list_filter = ('nombre', 'ubicacion',)
     search_fields = ['nombre','ubicacion']
     inlines=[ArmarioInline,]
 
 class EspecialidadAdmin(admin.ModelAdmin):
+    change_list_template = 'change_list2.html'
     list_display = ('materia',)
     list_filter = ('materia',)
     search_fields = ['materia']
 
 
 class CategoriaAdmin(admin.ModelAdmin):
+    change_list_template = 'change_list2.html'
     list_display = ('nombre',)
     list_filter = ('nombre',)
     search_fields = ['nombre']
 
 class ArmarioAdmin(admin.ModelAdmin):
+    change_list_template = 'change_list2.html'
     list_display = ('nombre', 'laboratorio',)
     list_filter = ('nombre', 'laboratorio',)
     search_fields = ['nombre', 'laboratorio__nombre']
