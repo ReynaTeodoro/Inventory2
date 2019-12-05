@@ -16,6 +16,7 @@ class ObjetoInline(admin.TabularInline):
 
 
 class RegistroAdmin(admin.ModelAdmin):
+    change_list_template = 'change_list2.html'
     list_display = ('fecha', 'descripcion', 'usuario')
     list_filter = ('usuario', 'fecha',)
     search_fields = ['usuario','fecha', 'descripcion']
@@ -32,6 +33,7 @@ class MultiplicarObjeto(ActionForm):
 
 
 class ConjuntoAdmin(admin.ModelAdmin):
+    change_list_template = 'change_list2.html'
     list_display = ('nombre', 'descripcion', 'categoria', 'contar')
     list_filter = ('nombre',  'categoria' ,)
     search_fields = ['nombre', 'categoria__nombre',]
@@ -56,8 +58,8 @@ class ObjetoAdmin(admin.ModelAdmin):
                 id_cole = (object.id_Colegio)
                 numeros = re.findall(r'\d+', str(id_cole))
                 letras = re.findall("[a-zA-Z]+", str(id_cole))
-                print(str(int(numeros[0])+1))
-                print(letras)
+#                print(str(int(numeros[0])+1))
+#                print(letras)
                 if not letras:
                     object.id_Colegio = str(int(numeros[0])+1)
                 else:
