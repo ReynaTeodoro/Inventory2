@@ -11,7 +11,7 @@ def registroPdf(request, **kwargs):
     p = canvas.Canvas(buffer)
     p.setLineWidth(.3)
     today = datetime.date.today()
-    solicitador = "Mr. Krabs"
+    solicitador = request.user.username
 
     p.drawString(220, 800, "Registro del "+str(today))
     p.drawString(30, 770,"Solicitado por: "+solicitador)
